@@ -59,7 +59,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String supportedMethods = ex.getSupportedMethods() == null ? null : String.join(",", ex.getSupportedMethods());
 
-        String msg = String.format("Method not supported: %s, only support %s",
+        String msg = "Method not supported: %s, only support %s".formatted(
                 ex.getMethod(), supportedMethods);
 
         captureException(ex, status);
@@ -80,7 +80,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String supportedContentTypes = ex.getSupportedMediaTypes().stream().map(MimeType::toString)
                 .collect(Collectors.joining(", "));
 
-        String msg = String.format("MediaType not supported: %s, only support %s",
+        String msg = "MediaType not supported: %s, only support %s".formatted(
                 ex.getContentType(), supportedContentTypes);
 
         captureException(ex, status);
@@ -101,7 +101,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String supportedContentTypes = ex.getSupportedMediaTypes().stream().map(MimeType::toString)
                 .collect(Collectors.joining(", "));
 
-        String msg = String.format("MediaType not acceptable: only support %s", supportedContentTypes);
+        String msg = "MediaType not acceptable: only support %s".formatted(supportedContentTypes);
 
         captureException(ex, status);
         return responseEntity(ErrorCode.NOT_ACCEPTABLE, status, msg);
@@ -120,7 +120,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ex.printStackTrace();
 
-        String msg = String.format("MissingPathVariable: variable name %s, parameter %s", ex.getVariableName(),
+        String msg = "MissingPathVariable: variable name %s, parameter %s".formatted(ex.getVariableName(),
                 ex.getParameter().getParameterName());
 
         captureException(ex, status);
@@ -138,7 +138,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     )
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String msg = String.format("MissingServletRequestParameter: parameter name %s", ex.getParameterName());
+        String msg = "MissingServletRequestParameter: parameter name %s".formatted(ex.getParameterName());
         captureException(ex, status);
         return responseEntity(ErrorCode.BAD_REQUEST, status, msg);
     }
@@ -154,7 +154,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     )
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String msg = String.format("MissingServletRequestPart: request part name %s", ex.getRequestPartName());
+        String msg = "MissingServletRequestPart: request part name %s".formatted(ex.getRequestPartName());
         captureException(ex, status);
         return responseEntity(ErrorCode.BAD_REQUEST, status, msg);
     }
@@ -170,7 +170,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     )
     @Override
     protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String msg = String.format("ServletRequestBinding: detail message code %s", ex.getDetailMessageCode());
+        String msg = "ServletRequestBinding: detail message code %s".formatted(ex.getDetailMessageCode());
         captureException(ex, status);
         return responseEntity(ErrorCode.BAD_REQUEST, status, msg);
     }
@@ -178,13 +178,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String fieldErrors = ex.getFieldErrors().stream().map(
-                fieldError -> String.format("%s:%s", fieldError.getObjectName(), fieldError.getField())
+                fieldError -> "%s:%s".formatted(fieldError.getObjectName(), fieldError.getField())
         ).collect(Collectors.joining(","));
 
         String glObjectErrors = ex.getGlobalErrors().stream().map(ObjectError::getObjectName)
                 .collect(Collectors.joining(","));
 
-        String msg = String.format("MethodArgumentNotValid field errors: %s, global errors: %s",
+        String msg = "MethodArgumentNotValid field errors: %s, global errors: %s".formatted(
                 fieldErrors, glObjectErrors);
 
         captureException(ex, status);
@@ -203,7 +203,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     )
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String msg = String.format("NoHandlerFound: method %s, url %s", ex.getHttpMethod(), ex.getRequestURL());
+        String msg = "NoHandlerFound: method %s, url %s".formatted(ex.getHttpMethod(), ex.getRequestURL());
         captureException(ex, status);
         return responseEntity(ErrorCode.NOT_FOUND, status, msg);
     }
@@ -234,7 +234,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ex.printStackTrace();
         String requiredType = ex.getRequiredType() == null ? null : ex.getRequiredType().getSimpleName();
-        String msg = String.format("ConversionNotSupported: required type %s", requiredType);
+        String msg = "ConversionNotSupported: required type %s".formatted(requiredType);
         captureException(ex, status);
         return responseEntity(ErrorCode.INTERNAL_ERR, status, msg);
     }
@@ -242,7 +242,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String requiredType = ex.getRequiredType() == null ? null : ex.getRequiredType().getSimpleName();
-        String msg = String.format("ConversionNotSupported: property %s, required type %s", ex.getPropertyName(), requiredType);
+        String msg = "ConversionNotSupported: property %s, required type %s".formatted(ex.getPropertyName(), requiredType);
         captureException(ex, status);
         return responseEntity(ErrorCode.BAD_REQUEST, status, msg);
     }

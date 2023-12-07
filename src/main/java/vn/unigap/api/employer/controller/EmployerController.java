@@ -3,6 +3,10 @@ package vn.unigap.api.employer.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import vn.unigap.api.employer.dto.in.EmployerDtoIn;
+import vn.unigap.api.employer.dto.in.EmployerUpdateDtoIn;
+import vn.unigap.api.employer.dto.in.PageDtoIn;
+import vn.unigap.api.employer.dto.out.EmployerDtoOut;
+import vn.unigap.api.employer.dto.out.PageDtoOut;
 import vn.unigap.api.employer.service.EmployerService;
+import vn.unigap.common.error.ErrorCode;
 import vn.unigap.common.response.ApiResponse;
 
 @CrossOrigin(origins = "*")
@@ -26,34 +35,32 @@ public class EmployerController {
 
     @PostMapping()
     public ResponseEntity<ApiResponse<String>> createEmployer(@RequestBody @Valid EmployerDtoIn employerDtoIn) {
-        String message = employerService.createEmployer(employerDtoIn);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(message));
+        String message = "Employer has been created successfully";
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.noDataResponse(ErrorCode.SUCCESS, HttpStatus.CREATED, message));
     }
 
-    // @PatchMapping()
-    // public ResponseEntity<EmployerDto> updateEmployer(@PathVariable long id, @RequestBody @Valid EmployerDto employerDto) {
-    //     Employer employer = modelMapper.map(employerDto, Employer.class); // convert dto to entity
-    //     Employer updatedEmployer = employerService.updateEmployer(id, employer); // update employer
-    //     EmployerDto updatedEmployerDto = modelMapper.map(updatedEmployer, EmployerDto.class); // convert entity to dto
-    //     return ResponseEntity.ok(updatedEmployerDto);
-    // }
+    @PatchMapping()
+    public ResponseEntity<ApiResponse<String>> updateEmployer(@PathVariable long id, @RequestBody @Valid EmployerUpdateDtoIn employerUpdateDtoIn) {
+        String message = "Employer has been updated successfully";
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noDataResponse(ErrorCode.SUCCESS, HttpStatus.OK, message));
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<EmployerDto> getEmployerById(@PathVariable long id) {
-    //     Employer employer = employerService.getEmployerById(id);
-    //     EmployerDto employerDto = modelMapper.map(employer, EmployerDto.class); // convert entity to dto
-    //     return ResponseEntity.ok(employerDto);
-    // }
+    }
 
-    // @GetMapping()
-    // public List<EmployerDto> getAllEmployers() {
-    //     List<Employer> employers = employerService.getAllEmployers();
-    //     return employers.stream().map(employer -> modelMapper.map(employer, EmployerDto.class)).toList(); // convert list entity to list dto
-    // }
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<EmployerDtoOut>> getEmployerById(@PathVariable long id) {
+        String message = "Employer has been retrieved successfully";
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.withDataResponse(employerService.getEmployerById(id), ErrorCode.SUCCESS, HttpStatus.OK, message));
+    }
 
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<String> deleteEmployerById(@PathVariable long id) {
-    //     String message = employerService.deleteEmployerById(id);
-    //     return ResponseEntity.status(HttpStatus.OK).body(message);
-    // }
+    @GetMapping()
+    public ResponseEntity<ApiResponse<PageDtoOut<EmployerDtoOut>>> getAllEmployers(@Valid PageDtoIn pageDtoIn) {
+        String message = "Employers have been retrieved successfully";
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.withDataResponse(employerService.getAllEmployers(pageDtoIn), ErrorCode.SUCCESS, HttpStatus.OK, message));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteEmployerById(@PathVariable long id) {
+        String message = "Employer has been deleted successfully";
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noDataResponse(ErrorCode.SUCCESS, HttpStatus.OK, message));
+    }
 }

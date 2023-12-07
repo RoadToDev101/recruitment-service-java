@@ -1,17 +1,27 @@
 package vn.unigap.api.employer.service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import vn.unigap.api.employer.dto.in.EmployerDtoIn;
+import vn.unigap.api.employer.dto.in.EmployerUpdateDtoIn;
+import vn.unigap.api.employer.dto.in.PageDtoIn;
+import vn.unigap.api.employer.dto.out.EmployerDtoOut;
+import vn.unigap.api.employer.dto.out.PageDtoOut;
 import vn.unigap.api.employer.entity.jpa.Employer;
+import vn.unigap.api.employer.entity.jpa.JobProvince;
 import vn.unigap.api.employer.repository.EmployerRepository;
+import vn.unigap.api.employer.repository.JobProvinceRepository;
 import vn.unigap.common.error.ErrorCode;
 import vn.unigap.common.exceptions.ApiException;
-
 
 @Service
 public class EmployerServiceImpl implements EmployerService {
@@ -19,10 +29,8 @@ public class EmployerServiceImpl implements EmployerService {
     @Autowired
     private EmployerRepository employerRepository;
 
-    // public EmployerServiceImpl(EmployerRepository employerRepository) {
-    //     super();
-    //     this.employerRepository = employerRepository;
-    // }
+    @Autowired
+    private JobProvinceRepository jobProvinceRepository;
 
     @Override
     public String createEmployer(EmployerDtoIn employerDtoIn) {
@@ -32,43 +40,74 @@ public class EmployerServiceImpl implements EmployerService {
         }
 
         Date date = new Date();
+        JobProvince province = jobProvinceRepository.findById(employerDtoIn.getProvince()).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Province does not exist"));
         Employer employer = Employer.builder()
-            .name(employerDtoIn.getName())
-            .email(employerDtoIn.getEmail())
-            .province(employerDtoIn.getProvince())
-            .description(employerDtoIn.getDescription())
-            .createdAt(date)
-            .updatedAt(date)
-            .build();
+                .name(employerDtoIn.getName())
+                .email(employerDtoIn.getEmail())
+                .province(province)
+                .description(employerDtoIn.getDescription())
+                .createdAt(date)
+                .updatedAt(date)
+                .build();
 
         employerRepository.save(employer);
         return "Employer has been created successfully";
     }
 
-    // @Override
-    // public Employer updateEmployer(long id, Employer employer) {
-    //     Employer existingEmployer = employerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employer not found"));
+    @Override
+    public String updateEmployer(long id, EmployerUpdateDtoIn employerUpdateDtoIn) {
+        // Check if employer exists
+        Employer employer = employerRepository.findById(id).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer does not exist"));
+        JobProvince province = jobProvinceRepository.findById(employerUpdateDtoIn.getProvince()).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Province does not exist"));
+        employer.setName(employerUpdateDtoIn.getName());
+        employer.setProvince(province);
+        employer.setDescription(employerUpdateDtoIn.getDescription());
 
-    //     existingEmployer.setName(employer.getName());
-    //     existingEmployer.setProvince(employer.getProvince());
-    //     existingEmployer.setDescription(employer.getDescription());
-    //     existingEmployer.setUpdatedAt(LocalDateTime.now());
-    //     return employerRepository.save(existingEmployer);
-    // }
+        employerRepository.save(employer);
+        return "Employer has been updated successfully";
+    }
 
-    // @Override
-    // public Employer getEmployerById(long id) {
-    //     return employerRepository.findById(id).orElse(null);
-    // }
+    @Override
+    public EmployerDtoOut getEmployerById(long id) {
+        // Check if employer exists
+        Employer employer = employerRepository.findById(id).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer does not exist"));
+        JobProvince province = jobProvinceRepository.findById(employer.getProvince().getId()).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Province does not exist"));
+        return EmployerDtoOut.builder()
+                .id(employer.getId())
+                .name(employer.getName())
+                .email(employer.getEmail())
+                .province(province)
+                // .provinceName(province.getName())
+                .description(employer.getDescription())
+                .build();
+    }
 
-    // @Override
-    // public List<Employer> getAllEmployers() {
-    //     return employerRepository.findAll();
-    // }
+    @Override
+    public PageDtoOut<EmployerDtoOut> getAllEmployers(PageDtoIn pageDtoIn) {
+        Page<Employer> employers = this.employerRepository.findAll(
+                PageRequest.of(pageDtoIn.getPage() - 1, pageDtoIn.getSize(),
+                        Sort.by("name").ascending()));
 
-    // @Override
-    // public String deleteEmployerById(long id) {
-    //     employerRepository.deleteById(id);
-    //     return "Employer has been deleted successfully";
-    // }
+        List<EmployerDtoOut> employerDtoOuts = employers.stream()
+                .map(EmployerDtoOut::from)
+                .collect(Collectors.toList());
+
+        return PageDtoOut.from(pageDtoIn.getPage(),
+                pageDtoIn.getSize(),
+                employers.getTotalElements(),
+                employerDtoOuts);
+    }
+
+    @Override
+    public String deleteEmployerById(long id) {
+        Employer employer = employerRepository.findById(id).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer does not exist"));
+        employerRepository.delete(employer);
+        return "Employer has been deleted successfully";
+    }
 }

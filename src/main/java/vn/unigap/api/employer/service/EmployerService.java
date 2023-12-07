@@ -1,15 +1,19 @@
 package vn.unigap.api.employer.service;
 
 import vn.unigap.api.employer.dto.in.EmployerDtoIn;
+import vn.unigap.api.employer.dto.in.EmployerUpdateDtoIn;
+import vn.unigap.api.employer.dto.in.PageDtoIn;
+import vn.unigap.api.employer.dto.out.EmployerDtoOut;
+import vn.unigap.api.employer.dto.out.PageDtoOut;
 
 public interface EmployerService {
     String createEmployer(EmployerDtoIn  employerDtoIn);
 
-    // Employer updateEmployer(long id, Employer employer);
+    String updateEmployer(long id, EmployerUpdateDtoIn employerUpdateDtoIn);
 
-    // Employer getEmployerById(long id);
+    EmployerDtoOut getEmployerById(long id);
 
-    // List<Employer> getAllEmployers();
+    PageDtoOut<EmployerDtoOut> getAllEmployers(PageDtoIn pageDtoIn);
 
-    // String deleteEmployerById(long id);
+    String deleteEmployerById(long id);
 }

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vn.unigap.common.error.ErrorCode;
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,15 +19,16 @@ public class ApiResponse<T> {
 
     private T object;
 
-    public static <T> ApiResponse<T> success(T object) {
+    public static <T> ApiResponse<T> withDataResponse(T object, Integer errorCode, HttpStatus httpStatus, String message) {
         return ApiResponse.<T>builder()
-                .errorCode(ErrorCode.SUCCESS)
-                .statusCode(HttpStatus.OK.value())
+                .errorCode(errorCode)
+                .message(message)
+                .statusCode(httpStatus.value())
                 .object(object)
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(Integer errorCode, HttpStatus httpStatus, String message) {
+    public static <T> ApiResponse<T> noDataResponse(Integer errorCode, HttpStatus httpStatus, String message) {
         return ApiResponse.<T>builder()
                 .errorCode(errorCode)
                 .statusCode(httpStatus.value())

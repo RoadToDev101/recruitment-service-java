@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import vn.unigap.api.employer.entity.jpa.Employer;
+import vn.unigap.api.employer.entity.jpa.JobProvince;
 
 @Data
 @AllArgsConstructor
@@ -14,15 +15,17 @@ public class EmployerDtoOut {
     private Long id;
     private String email;
     private String name;
-    private int province;
+    private JobProvince province;
+    // private String provinceName;
     private String description;
 
-    public static EmployerDtoOut fromEntity(Employer employer) {
+    public static EmployerDtoOut from(Employer employer) {
         return EmployerDtoOut.builder()
                 .id(employer.getId())
                 .email(employer.getEmail())
                 .name(employer.getName())
                 .province(employer.getProvince())
+                // .provinceName(employer.getProvince().getName())
                 .description(employer.getDescription())
                 .build();
     }
