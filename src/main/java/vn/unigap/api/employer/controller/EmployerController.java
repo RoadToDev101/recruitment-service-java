@@ -43,7 +43,6 @@ public class EmployerController {
     public ResponseEntity<ApiResponse<EmployerDtoOut>> updateEmployer(@PathVariable long id, @RequestBody @Valid EmployerUpdateDtoIn employerUpdateDtoIn) {
         String message = "Employer has been updated successfully";
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.withDataResponse(employerService.updateEmployer(id, employerUpdateDtoIn), ErrorCode.SUCCESS, HttpStatus.OK, message));
-
     }
 
     @GetMapping("/{id}")

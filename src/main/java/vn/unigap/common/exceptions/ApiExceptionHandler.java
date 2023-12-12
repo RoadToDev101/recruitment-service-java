@@ -233,7 +233,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ex.printStackTrace();
-        String requiredType = ex.getRequiredType() == null ? null : ex.getRequiredType().getSimpleName();
+        Class<?> requiredTypeClass = ex.getRequiredType();
+        String requiredType = requiredTypeClass == null ? null : requiredTypeClass.getSimpleName();
         String msg = "ConversionNotSupported: required type %s".formatted(requiredType);
         captureException(ex, status);
         return responseEntity(ErrorCode.INTERNAL_ERR, status, msg);
@@ -241,7 +242,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String requiredType = ex.getRequiredType() == null ? null : ex.getRequiredType().getSimpleName();
+        Class<?> requiredTypeClass = ex.getRequiredType();
+        String requiredType = requiredTypeClass == null ? null : requiredTypeClass.getSimpleName();
         String msg = "ConversionNotSupported: property %s, required type %s".formatted(ex.getPropertyName(), requiredType);
         captureException(ex, status);
         return responseEntity(ErrorCode.BAD_REQUEST, status, msg);

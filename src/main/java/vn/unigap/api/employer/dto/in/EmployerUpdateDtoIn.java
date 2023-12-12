@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class EmployerUpdateDtoIn {
     @NotEmpty
     @Size(max = 255, message = "Name length should not be greater than 255")
@@ -16,7 +18,7 @@ public class EmployerUpdateDtoIn {
 
     @NotNull
     @Min(value = 1, message = "Province ID must be at least 1")
-    private Integer province;
+    private long province;
 
     private String description;
 }
