@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 @Table(name="job_province")
 public class JobProvince {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
-    private int id;
+    private long id;
 
     @Column(name = "name")
     private String name;
