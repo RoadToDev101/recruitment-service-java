@@ -7,9 +7,9 @@ import vn.unigap.api.employer.dto.out.EmployerDtoOut;
 import vn.unigap.api.employer.dto.out.PageDtoOut;
 
 public interface EmployerService {
-    String createEmployer(EmployerDtoIn  employerDtoIn);
+    EmployerDtoOut createEmployer(EmployerDtoIn  employerDtoIn);
 
-    String updateEmployer(long id, EmployerUpdateDtoIn employerUpdateDtoIn);
+    EmployerDtoOut updateEmployer(long id, EmployerUpdateDtoIn employerUpdateDtoIn);
 
     EmployerDtoOut getEmployerById(long id);
 

@@ -34,15 +34,15 @@ public class EmployerController {
     }
 
     @PostMapping()
-    public ResponseEntity<ApiResponse<String>> createEmployer(@RequestBody @Valid EmployerDtoIn employerDtoIn) {
+    public ResponseEntity<ApiResponse<EmployerDtoOut>> createEmployer(@RequestBody @Valid EmployerDtoIn employerDtoIn) {
         String message = "Employer has been created successfully";
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.noDataResponse(ErrorCode.SUCCESS, HttpStatus.CREATED, message));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.withDataResponse(employerService.createEmployer(employerDtoIn), ErrorCode.SUCCESS, HttpStatus.CREATED, message));
     }
 
-    @PatchMapping()
-    public ResponseEntity<ApiResponse<String>> updateEmployer(@PathVariable long id, @RequestBody @Valid EmployerUpdateDtoIn employerUpdateDtoIn) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<EmployerDtoOut>> updateEmployer(@PathVariable long id, @RequestBody @Valid EmployerUpdateDtoIn employerUpdateDtoIn) {
         String message = "Employer has been updated successfully";
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noDataResponse(ErrorCode.SUCCESS, HttpStatus.OK, message));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.withDataResponse(employerService.updateEmployer(id, employerUpdateDtoIn), ErrorCode.SUCCESS, HttpStatus.OK, message));
 
     }
 
