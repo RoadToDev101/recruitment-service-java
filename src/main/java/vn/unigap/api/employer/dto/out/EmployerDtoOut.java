@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vn.unigap.api.employer.entity.jpa.Employer;
-import vn.unigap.api.employer.entity.jpa.JobProvince;
+import vn.unigap.api.entity.jpa.Employer;
+import vn.unigap.api.entity.jpa.JobProvince;
 
 @Data
 @AllArgsConstructor
@@ -20,13 +20,9 @@ public class EmployerDtoOut {
     private String description;
 
     public static EmployerDtoOut from(Employer employer) {
-        return EmployerDtoOut.builder()
-                .id(employer.getId())
-                .email(employer.getEmail())
-                .name(employer.getName())
+        return EmployerDtoOut.builder().id(employer.getId()).email(employer.getEmail()).name(employer.getName())
                 .province(employer.getProvince())
                 // .provinceName(employer.getProvince().getName())
-                .description(employer.getDescription())
-                .build();
+                .description(employer.getDescription()).build();
     }
 }

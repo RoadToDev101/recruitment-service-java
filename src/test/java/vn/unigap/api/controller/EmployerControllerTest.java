@@ -21,8 +21,8 @@ import vn.unigap.api.employer.controller.EmployerController;
 import vn.unigap.api.employer.dto.in.EmployerDtoIn;
 import vn.unigap.api.employer.dto.in.EmployerUpdateDtoIn;
 import vn.unigap.api.employer.dto.out.EmployerDtoOut;
-import vn.unigap.api.employer.entity.jpa.JobProvince;
 import vn.unigap.api.employer.service.EmployerService;
+import vn.unigap.api.entity.jpa.JobProvince;
 import vn.unigap.common.pagination.dto.in.PageDtoIn;
 import vn.unigap.common.pagination.dto.out.PageDtoOut;
 

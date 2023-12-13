@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.entity.jpa;
+package vn.unigap.api.entity.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
