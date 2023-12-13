@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.dto.in;
+package vn.unigap.common.pagination.dto.in;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

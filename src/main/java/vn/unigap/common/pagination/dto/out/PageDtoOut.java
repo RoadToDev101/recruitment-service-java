@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.dto.out;
+package vn.unigap.common.pagination.dto.out;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Represents a generic page response DTO (Data Transfer Object) containing paginated data.
+ * Represents a generic page response DTO (Data Transfer Object) containing
+ * paginated data.
  *
  * @param <T> the type of data contained in the page
  */
@@ -34,7 +35,8 @@ public class PageDtoOut<T> {
     private List<T> data = new ArrayList<>();
 
     /**
-     * Creates a new instance of PageDtoOut with the specified page, pageSize, totalElements, and data.
+     * Creates a new instance of PageDtoOut with the specified page, pageSize,
+     * totalElements, and data.
      *
      * @param page          the current page number
      * @param pageSize      the number of elements per page
@@ -49,11 +51,7 @@ public class PageDtoOut<T> {
             totalPages++;
         }
 
-        return PageDtoOut.<T>builder()
-                .page(page)
-                .pageSize(pageSize)
-                .totalElements(totalElements)
-                .totalPages(totalPages)
+        return PageDtoOut.<T>builder().page(page).pageSize(pageSize).totalElements(totalElements).totalPages(totalPages)
                 .data(data).build();
     }
 }
