@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.dto.out;
+package vn.unigap.api.dto.out;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

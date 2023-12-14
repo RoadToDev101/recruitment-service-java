@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.dto.in;
+package vn.unigap.api.dto.in;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -25,8 +25,8 @@ public class EmployerDtoIn {
     @Size(max = 255, message = "Name must be less than 255 characters")
     private String name;
 
-    @Min(value = 1L, message = "Province is required")
-    private long province;
+    @Min(value = 1, message = "Province is required")
+    private Integer provinceId;
 
     private String description;
 }

@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.controller;
+package vn.unigap.api.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import vn.unigap.api.employer.dto.in.EmployerDtoIn;
-import vn.unigap.api.employer.dto.in.EmployerUpdateDtoIn;
-import vn.unigap.api.employer.dto.out.EmployerDtoOut;
-import vn.unigap.api.employer.service.EmployerService;
+import vn.unigap.api.dto.in.EmployerDtoIn;
+import vn.unigap.api.dto.in.EmployerUpdateDtoIn;
+import vn.unigap.api.dto.out.EmployerDtoOut;
+import vn.unigap.api.service.EmployerService;
 import vn.unigap.common.error.ErrorCode;
 import vn.unigap.common.pagination.dto.in.PageDtoIn;
 import vn.unigap.common.pagination.dto.out.PageDtoOut;

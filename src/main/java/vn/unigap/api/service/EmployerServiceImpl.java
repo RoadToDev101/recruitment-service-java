@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.service;
+package vn.unigap.api.service;
 
 import java.util.Date;
 import java.util.List;
@@ -12,9 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import vn.unigap.api.employer.dto.in.EmployerDtoIn;
-import vn.unigap.api.employer.dto.in.EmployerUpdateDtoIn;
-import vn.unigap.api.employer.dto.out.EmployerDtoOut;
+import vn.unigap.api.dto.in.EmployerDtoIn;
+import vn.unigap.api.dto.in.EmployerUpdateDtoIn;
+import vn.unigap.api.dto.out.EmployerDtoOut;
 import vn.unigap.api.entity.jpa.Employer;
 import vn.unigap.api.entity.jpa.JobProvince;
 import vn.unigap.api.repository.EmployerRepository;
@@ -44,7 +44,7 @@ public class EmployerServiceImpl implements EmployerService {
                 }
 
                 Date date = new Date();
-                JobProvince province = jobProvinceRepository.findById(employerDtoIn.getProvince())
+                JobProvince province = jobProvinceRepository.findById(employerDtoIn.getProvinceId())
                                 .orElseThrow(() -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND,
                                                 "Province does not exist"));
                 Employer employer = Employer.builder().name(employerDtoIn.getName()).email(employerDtoIn.getEmail())

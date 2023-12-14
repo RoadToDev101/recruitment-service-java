@@ -1,4 +1,4 @@
-package vn.unigap.api.employer.dto.in;
+package vn.unigap.api.dto.in;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,7 +18,7 @@ public class EmployerUpdateDtoIn {
 
     @NotNull
     @Min(value = 1, message = "Province ID must be at least 1")
-    private long province;
+    private Integer province;
 
     private String description;
 }

@@ -17,12 +17,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.MediaType;
 
-import vn.unigap.api.employer.controller.EmployerController;
-import vn.unigap.api.employer.dto.in.EmployerDtoIn;
-import vn.unigap.api.employer.dto.in.EmployerUpdateDtoIn;
-import vn.unigap.api.employer.dto.out.EmployerDtoOut;
-import vn.unigap.api.employer.service.EmployerService;
+import vn.unigap.api.dto.in.EmployerDtoIn;
+import vn.unigap.api.dto.in.EmployerUpdateDtoIn;
+import vn.unigap.api.dto.out.EmployerDtoOut;
 import vn.unigap.api.entity.jpa.JobProvince;
+import vn.unigap.api.service.EmployerService;
 import vn.unigap.common.pagination.dto.in.PageDtoIn;
 import vn.unigap.common.pagination.dto.out.PageDtoOut;
 
@@ -55,10 +54,10 @@ public class EmployerControllerTest {
         @Test
         public void testCreateEmployer() throws Exception {
                 // Prepare test data
-                EmployerDtoIn employerDtoIn = new EmployerDtoIn("test4@example.com", "Test Employer", 1L,
+                EmployerDtoIn employerDtoIn = new EmployerDtoIn("test4@example.com", "Test Employer", 1,
                                 "Test description");
                 EmployerDtoOut mockEmployer = new EmployerDtoOut(1L, employerDtoIn.getEmail(), employerDtoIn.getName(),
-                                new JobProvince(employerDtoIn.getProvince(), "Hồ Chí Minh"),
+                                new JobProvince(employerDtoIn.getProvinceId(), "Hồ Chí Minh"),
                                 employerDtoIn.getDescription());
 
                 // Mocking service method
@@ -73,7 +72,7 @@ public class EmployerControllerTest {
                                 .andExpect(jsonPath("$.object.id").value(1))
                                 .andExpect(jsonPath("$.object.email").value(employerDtoIn.getEmail()))
                                 .andExpect(jsonPath("$.object.name").value(employerDtoIn.getName()))
-                                .andExpect(jsonPath("$.object.province.id").value(employerDtoIn.getProvince()))
+                                .andExpect(jsonPath("$.object.province.id").value(employerDtoIn.getProvinceId()))
                                 .andExpect(jsonPath("$.object.province.name").value("Hồ Chí Minh"))
                                 .andExpect(jsonPath("$.object.description").value(employerDtoIn.getDescription()));
 
@@ -84,7 +83,7 @@ public class EmployerControllerTest {
         @Test
         public void testUpdateEmployer() throws Exception {
                 // Prepare test data
-                EmployerUpdateDtoIn employerUpdateDtoIn = new EmployerUpdateDtoIn("Update Test Employer", 1L,
+                EmployerUpdateDtoIn employerUpdateDtoIn = new EmployerUpdateDtoIn("Update Test Employer", 1,
                                 "Update description");
                 EmployerDtoOut mockEmployer = new EmployerDtoOut(1L, "test4@example.com", employerUpdateDtoIn.getName(),
                                 new JobProvince(employerUpdateDtoIn.getProvince(), "Hồ Chí Minh"),
@@ -115,7 +114,7 @@ public class EmployerControllerTest {
         @Test
         public void testGetEmployerById() throws Exception {
                 // Prepare test data
-                JobProvince province = new JobProvince(1L, "Hồ Chí Minh");
+                JobProvince province = new JobProvince(1, "Hồ Chí Minh");
                 EmployerDtoOut mockEmployer = new EmployerDtoOut(3093725L,
                                 "27f9bad99edfff6434d80a334016d975b3ba1e91@sieu-viet.com", "3shomes", province,
                                 "vận hành căn hộ cho thuê");
@@ -143,9 +142,9 @@ public class EmployerControllerTest {
                 PageDtoIn pageDtoIn = new PageDtoIn(1, 10);
                 PageDtoOut<EmployerDtoOut> mockPageDtoOut = new PageDtoOut<EmployerDtoOut>(1, 10, 20L, 2L,
                                 Arrays.asList(new EmployerDtoOut(1L, "test1@example.com", "Employer 1",
-                                                new JobProvince(1L, "Hồ Chí Minh"), "Description 1"),
+                                                new JobProvince(1, "Hồ Chí Minh"), "Description 1"),
                                                 new EmployerDtoOut(2L, "test2@example.com", "Employer 2",
-                                                                new JobProvince(2L, "Hà Nội"), "Description 2")));
+                                                                new JobProvince(2, "Hà Nội"), "Description 2")));
 
                 // Mocking service method
                 when(employerService.getAllEmployers(any(PageDtoIn.class))).thenReturn(mockPageDtoOut);
