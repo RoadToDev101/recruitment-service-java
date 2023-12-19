@@ -32,7 +32,6 @@ public class Job implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    // @Column(name = "employer_id")
     @ManyToOne
     @JoinColumn(name = "employer_id", referencedColumnName = "id")
     private Employer employerId;

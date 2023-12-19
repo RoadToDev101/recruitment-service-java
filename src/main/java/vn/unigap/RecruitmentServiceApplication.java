@@ -4,9 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
 @SpringBootApplication(
-	// Scan other packages outside of unigap package if needed
-	// scanBasePackages = {"vn.util"}
+// Scan other packages outside of unigap package if needed
+// scanBasePackages = {"vn.util"}
 )
 public class RecruitmentServiceApplication {
 	@Bean

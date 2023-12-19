@@ -3,6 +3,8 @@ package vn.unigap.api.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +34,12 @@ public class JobController {
         String message = "Job has been created successfully";
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse
                 .withDataResponse(jobService.createJob(jobDtoIn), ErrorCode.SUCCESS, HttpStatus.CREATED, message));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<JobDtoOut>> getJobById(@PathVariable long id) {
+        String message = "Job has been retrieved successfully";
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiResponse.withDataResponse(jobService.getJobById(id), ErrorCode.SUCCESS, HttpStatus.OK, message));
     }
 }

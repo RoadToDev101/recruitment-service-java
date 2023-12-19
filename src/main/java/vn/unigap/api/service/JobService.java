@@ -10,7 +10,7 @@ public interface JobService {
 
     // JobDtoOut updateJob(long id, JobUpdateDtoIn jobUpdateDtoIn);
 
-    // JobDtoOut getJobById(long id);
+    JobDtoOut getJobById(long id);
 
     // PageDtoOut<JobDtoOut> getAllJobs(PageDtoIn pageDtoIn);
 
